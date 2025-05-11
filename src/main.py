@@ -244,6 +244,38 @@ def main():
         st.subheader("Upload Logo")
         logo_file = st.file_uploader("Drag and drop your logo here", type=['png', 'jpg', 'jpeg'], key="logo")
 
+    # --- Smart defaults based on logo image ---
+    if 'logo_width' not in st.session_state:
+        st.session_state.logo_width = 100
+    if 'logo_height' not in st.session_state:
+        st.session_state.logo_height = 100
+    if 'bg_width' not in st.session_state:
+        st.session_state.bg_width = 140
+    if 'bg_height' not in st.session_state:
+        st.session_state.bg_height = 140
+    if 'logo_aspect' not in st.session_state:
+        st.session_state.logo_aspect = 1.0
+    if 'logo_overridden' not in st.session_state:
+        st.session_state.logo_overridden = False
+    if 'bg_overridden' not in st.session_state:
+        st.session_state.bg_overridden = False
+    if 'padding' not in st.session_state:
+        st.session_state.padding = 20
+
+    # When a logo is uploaded, set smart defaults
+    if logo_file is not None:
+        logo_img = Image.open(logo_file)
+        orig_w, orig_h = logo_img.size
+        aspect = orig_w / orig_h if orig_h != 0 else 1.0
+        st.session_state.logo_aspect = aspect
+        # Only set defaults if not overridden
+        if not st.session_state.logo_overridden:
+            st.session_state.logo_width = 100
+            st.session_state.logo_height = int(100 / aspect)
+        if not st.session_state.bg_overridden:
+            st.session_state.bg_width = st.session_state.logo_width + 2 * st.session_state.padding
+            st.session_state.bg_height = st.session_state.logo_height + 2 * st.session_state.padding
+
     st.markdown("---")
     st.markdown("### Logo & Background Configuration")
     config_col1, config_col2 = st.columns(2)
@@ -258,27 +290,54 @@ def main():
             custom_x = st.number_input("Custom X Position", min_value=0, value=400)
             custom_y = st.number_input("Custom Y Position", min_value=0, value=20)
         st.write("")
-        logo_width = st.number_input("Logo Width (px)", min_value=10, value=100)
-        logo_height = st.number_input("Logo Height (px)", min_value=10, value=100)  # Default set to 100
-        padding = st.number_input("Padding from edges (px)", min_value=0, value=20)
+        def on_logo_width_change():
+            st.session_state.logo_overridden = True
+            st.session_state.logo_height = int(st.session_state.logo_width / st.session_state.logo_aspect)
+            if not st.session_state.bg_overridden:
+                st.session_state.bg_width = st.session_state.logo_width + 2 * st.session_state.padding
+                st.session_state.bg_height = st.session_state.logo_height + 2 * st.session_state.padding
+        def on_logo_height_change():
+            st.session_state.logo_overridden = True
+            st.session_state.logo_width = int(st.session_state.logo_height * st.session_state.logo_aspect)
+            if not st.session_state.bg_overridden:
+                st.session_state.bg_width = st.session_state.logo_width + 2 * st.session_state.padding
+                st.session_state.bg_height = st.session_state.logo_height + 2 * st.session_state.padding
+        logo_width = st.number_input(
+            "Logo Width (px)", min_value=10, value=st.session_state.logo_width, key="logo_width", on_change=on_logo_width_change
+        )
+        logo_height = st.number_input(
+            "Logo Height (px)", min_value=10, value=st.session_state.logo_height, key="logo_height", on_change=on_logo_height_change
+        )
+        def on_padding_change():
+            st.session_state.padding = st.session_state['padding']
+            if not st.session_state.bg_overridden:
+                st.session_state.bg_width = st.session_state.logo_width + 2 * st.session_state.padding
+                st.session_state.bg_height = st.session_state.logo_height + 2 * st.session_state.padding
+        padding = st.number_input("Padding from edges (px)", min_value=0, value=st.session_state.padding, key="padding", on_change=on_padding_change)
 
     with config_col2:
         st.markdown("#### Background Settings")
-        bg_width = st.number_input("Background Width (px)", min_value=10, value=140)
-        bg_height = st.number_input("Background Height (px)", min_value=10, value=140)
+        def on_bg_width_change():
+            st.session_state.bg_overridden = True
+        def on_bg_height_change():
+            st.session_state.bg_overridden = True
+        bg_width = st.number_input(
+            "Background Width (px)", min_value=10, value=st.session_state.bg_width, key="bg_width", on_change=on_bg_width_change
+        )
+        bg_height = st.number_input(
+            "Background Height (px)", min_value=10, value=st.session_state.bg_height, key="bg_height", on_change=on_bg_height_change
+        )
         st.write("")
         st.markdown("#### Preview & Advanced")
         with st.expander("Advanced Options", expanded=False):
             opacity = st.slider("Background Opacity", 0.0, 1.0, 1.0, 0.01)
             rotation = st.slider("Logo Rotation (degrees)", -180, 180, 0, 1)
-        # Defaults if not in expander
         if 'opacity' not in locals():
             opacity = 1.0
         if 'rotation' not in locals():
             rotation = 0
 
     st.markdown("---")
-    # Center the process button
     button_col = st.columns([1,2,1])[1]
     with button_col:
         process = st.button("Process Document", use_container_width=True)
@@ -287,7 +346,6 @@ def main():
         if pdf_file is None or logo_file is None:
             st.error("Please upload both a PDF document and a logo image.")
             return
-        # Create temporary files
         with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_pdf:
             tmp_pdf.write(pdf_file.getvalue())
             pdf_path = tmp_pdf.name
@@ -296,12 +354,12 @@ def main():
             logo_path = tmp_logo.name
         try:
             logo_config = {
-                'width': logo_width,
-                'height': logo_height,
+                'width': st.session_state.logo_width,
+                'height': st.session_state.logo_height,
                 'position': position,
-                'padding': padding,
-                'bg_width': bg_width,
-                'bg_height': bg_height,
+                'padding': st.session_state.padding,
+                'bg_width': st.session_state.bg_width,
+                'bg_height': st.session_state.bg_height,
                 'opacity': opacity,
                 'rotation': rotation
             }

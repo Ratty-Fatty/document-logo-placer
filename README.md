@@ -1,14 +1,56 @@
 # Document Logo Placer
 
-A web application that allows you to place your own custom logo on documents (currently pdf only).
+A user-friendly web application to add your own logo (with a customizable background) to PDF documents. Designed for both non-technical and technical users, it offers a simple drag-and-drop interface and advanced customization options.
+
+---
 
 ## Features
 
-- Drag and drop interface for PDF documents and logo images
-- Customizable logo positioning and sizing
-- Support for processing single or multiple pages
-- Maintains aspect ratio of logos
-- Various logo placement options (bottom-right, top-left, center, etc.)
+- **Drag & Drop Simplicity:** Effortlessly upload your PDF and logo image.
+- **Smart Logo Sizing:** Logo size defaults to maintain your image's aspect ratio.
+- **Automatic Background Sizing:** The background adapts to your logo size and padding, but you can override it for full control.
+- **Flexible Placement:** Choose from preset corners, center, or custom coordinates for your logo and background.
+- **Fine-tune Everything:** Adjust logo width, height, rotation, background size, opacity, and padding.
+- **Live Preview:** Instantly see your configuration before processing.
+- **Download Result:** Get your processed PDF with a single click.
+
+---
+
+## How It Works (Visual Guide)
+
+### 1. Start the App
+- Run the app and open it in your browser.
+
+### 2. Upload Your Files
+- **PDF Document:** Drag and drop or browse to select your PDF.
+- **Logo Image:** Drag and drop or browse to select your logo (PNG/JPG recommended).
+
+![Upload Section Example](images/upload-section.png)
+
+### 3. Configure Logo & Background
+- **Logo Settings:**
+  - Choose position (corners, center, or custom)
+  - Adjust width/height (aspect ratio preserved by default)
+  - Set padding from page edges
+- **Background Settings:**
+  - Background size auto-follows logo, or set your own
+  - Adjust opacity and rotation in "Advanced Options"
+
+![Configuration Section Example](images/config-section.png)
+
+### 4. Process & Download
+- Click **Process Document**
+- Download your new PDF with your logo and background perfectly placed
+
+---
+
+## Tech Stack
+- **Frontend/UI:** [Streamlit](https://streamlit.io/) (Python)
+- **PDF Processing:** [PyMuPDF](https://pymupdf.readthedocs.io/), [PyPDF2](https://pypdf2.readthedocs.io/)
+- **Image Handling:** [Pillow (PIL)](https://python-pillow.org/), [NumPy](https://numpy.org/)
+- **PDF Drawing:** [ReportLab](https://www.reportlab.com/)
+
+---
 
 ## Installation
 
@@ -23,20 +65,46 @@ A web application that allows you to place your own custom logo on documents (cu
    pip install -r requirements.txt
    ```
 
+---
+
 ## Usage
 
 Run the application:
 ```bash
-python logo_placer.py
+python src/main.py
 ```
 
-The web interface will open in your default browser. You can then:
-1. Upload your PDF document
-2. Upload your logo image (PNG with transparent background recommended)
-3. Configure logo placement and size
-4. Process the document and download the result
+Or, if you have a different entry point:
+```bash
+streamlit run src/main.py
+```
+
+---
 
 ## Requirements
-
 - Python 3.8 or higher
-- See requirements.txt for Python package dependencies 
+- See requirements.txt for Python package dependencies
+
+---
+
+## FAQ
+- **What file types are supported?**
+  - PDF for documents, PNG/JPG for logos.
+- **Is my data private?**
+  - All processing is local; your files never leave your computer.
+- **Can I use this for batch processing?**
+  - Currently, one document at a time. Batch support may be added in the future.
+
+---
+
+## Screenshots
+
+### Upload Section
+![Upload Section Example](images/upload-section.png)
+
+### Configuration Section
+![Configuration Section Example](images/config-section.png)
+
+---
+
+Enjoy making your documents truly yours! 
