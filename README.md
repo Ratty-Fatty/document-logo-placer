@@ -11,7 +11,6 @@ A user-friendly web application to add your own logo (with a customizable backgr
 - **Automatic Background Sizing:** The background adapts to your logo size and padding, but you can override it for full control.
 - **Flexible Placement:** Choose from preset corners, center, or custom coordinates for your logo and background.
 - **Fine-tune Everything:** Adjust logo width, height, rotation, background size, opacity, and padding.
-- **Live Preview:** Instantly see your configuration before processing.
 - **Download Result:** Get your processed PDF with a single click.
 
 ---
@@ -55,7 +54,7 @@ A user-friendly web application to add your own logo (with a customizable backgr
 ## Installation
 
 1. Clone this repository
-2. Create a virtual environment:
+2. Create a virtual environment (not strictly required, but recommended):
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -74,9 +73,9 @@ Run the application:
 python src/main.py
 ```
 
-Or, if you have a different entry point:
+Or, if you have a different entry point (recommended):
 ```bash
-streamlit run src/main.py
+streamlit run run.py
 ```
 
 ---
@@ -97,6 +96,14 @@ streamlit run src/main.py
 
 ---
 
+---
+
+## Future Feature
+
+- **Live Preview:** Instantly see your configuration before processing.
+
+---
+
 ## Screenshots
 
 ### Upload Section
@@ -107,4 +114,4 @@ streamlit run src/main.py
 
 ---
 
-Enjoy making your documents truly yours! 
+Open to issue report and suggestions, cheers!
