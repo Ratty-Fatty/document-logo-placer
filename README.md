@@ -54,7 +54,7 @@ A user-friendly web application to add your own logo (with a customizable backgr
 ## Installation
 
 1. Clone this repository
-2. Create a virtual environment (not strictly required, but recommended):
+2. Create a virtual environment (not strictly required, but recommended) :
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -73,7 +73,7 @@ Run the application:
 python src/main.py
 ```
 
-Or, if you have a different entry point (recommended):
+Or, if you have a different entry point (recommended) :
 ```bash
 streamlit run run.py
 ```
@@ -96,21 +96,9 @@ streamlit run run.py
 
 ---
 
----
-
 ## Future Feature
 
 - **Live Preview:** Instantly see your configuration before processing.
-
----
-
-## Screenshots
-
-### Upload Section
-![Upload Section Example](static/images/upload-section.png)
-
-### Configuration Section
-![Configuration Section Example](static/images/config-section.png)
 
 ---
 
