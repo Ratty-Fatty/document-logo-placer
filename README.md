@@ -24,7 +24,7 @@ A user-friendly web application to add your own logo (with a customizable backgr
 - **PDF Document:** Drag and drop or browse to select your PDF.
 - **Logo Image:** Drag and drop or browse to select your logo (PNG/JPG recommended).
 
-![Upload Section Example](images/upload-section.png)
+![Upload Section Example](static/images/upload-section.png)
 
 ### 3. Configure Logo & Background
 - **Logo Settings:**
@@ -35,7 +35,7 @@ A user-friendly web application to add your own logo (with a customizable backgr
   - Background size auto-follows logo, or set your own
   - Adjust opacity and rotation in "Advanced Options"
 
-![Configuration Section Example](images/config-section.png)
+![Configuration Section Example](static/images/config-section.png)
 
 ### 4. Process & Download
 - Click **Process Document**
@@ -107,10 +107,10 @@ streamlit run run.py
 ## Screenshots
 
 ### Upload Section
-![Upload Section Example](images/upload-section.png)
+![Upload Section Example](static/images/upload-section.png)
 
 ### Configuration Section
-![Configuration Section Example](images/config-section.png)
+![Configuration Section Example](static/images/config-section.png)
 
 ---
 
